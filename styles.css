@@ -1,0 +1,50 @@
+/* Reset some basic styling */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #cccccc;
+    background-color: #1f1f1f;
+    padding: 1em;
+}
+
+header, footer {
+    text-align: center;
+    margin-bottom: 2em;
+}
+
+h1, h2 {
+    color: #f6f6f6;
+}
+
+main {
+    max-width: 80%;
+    margin: 0 auto;
+}
+
+#portfolio {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+}
+
+.portfolio-item {
+    text-align: center;
+}
+
+.portfolio-item img, .portfolio-item iframe {
+    max-width: 100%;
+    height: auto;
+}
+
+footer {
+    margin-top: 2em;
+}
+li {
+    margin-left: 5%;
+}
