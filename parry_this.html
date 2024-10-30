@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Parry This! | Hristo Stantchev</title>
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
     <header>
         <h1>Hristo Stantchev</h1>
@@ -25,34 +27,218 @@
             <a href="https://savico.itch.io/">Itch.io Team</a>
         </div>
     </header>
-    
+
     <main>
         <section class="project-detail">
             <h2>Parry This!</h2>
             <img src="images/parry_this.jpg" alt="Parry This!">
-            <p>An intense parry-based combat game with precise mechanics and animations.</p>
-            
-            <!-- Feature 1: FSM-based Enemy AI -->
+            <p>An intense parry-based combat game with precise mechanics and polished animation.</p>
+
+            <h1>Game Development Breakdown</h1>
             <section class="feature">
-                <h3>Feature 1: FSM-based Enemy AI</h3>
-                <p><strong>Problem:</strong> Creating AI behaviors that feel responsive to player actions and deliver strategic, varied challenges in combat.</p>
-                <p><strong>Solution:</strong> Designed a finite state machine (FSM) for each enemy type, enabling dynamic responses based on player proximity, attack timing, and defense strategies. This system allowed for efficient state transitions, making the AI feel responsive and complex yet manageable.</p>
+                <div id="player-controls">
+                    <h2>Player Controls</h2>
+                    <div>
+                        <h3>Problem</h3>
+                        <p>Players need an intuitive control system that allows for complex player expression without
+                            overwhelming them, providing "easy to learn, hard to master" mechanics.</p>
+                    </div>
+                    <div>
+                        <h3>Solution</h3>
+                        <p>I developed a responsive player control system with several core elements:</p>
+                        <ul>
+                            <li><strong>8-Directional Movement</strong>: Allows players predictable positioning to scan
+                                for
+                                enemies without being limited in movement options.</li>
+                            <li><strong>One-Button Combos</strong>: Players can chain up to three attacks, where each
+                                subsequent strike has a longer but narrower hitbox, accommodating diverse playstyles.
+                            </li>
+                            <li><strong>Dash Mechanic</strong>: Players disable their hitbox for a quick reposition when
+                                parrying isn’t viable, adding a defensive option. Recovery time and a cooldown prevent
+                                overuse, encouraging strategic timing.</li>
+                            <li><strong>Quality of Life Enhancements</strong>: Animation-based input buffers allow
+                                smoother
+                                combo transitions. Separately, movement adjustments provide players with nuanced control
+                                mid-animation, creating a rhythm-based challenge that’s rewarding without sacrificing
+                                gameplay flow.</li>
+                        </ul>
+                    </div>
+                </div>
             </section>
 
-            <!-- Feature 2: Animation Syncing -->
             <section class="feature">
-                <h3>Feature 2: Animation Syncing</h3>
-                <p><strong>Problem:</strong> Achieving a high degree of responsiveness between player input and animations, essential for a game that rewards precision timing.</p>
-                <p><strong>Solution:</strong> Synchronized input-driven animations with precise timing, blending between states for smoother transitions. This approach resulted in an immersive and responsive gameplay experience, making every parry and counterattack feel impactful.</p>
+                <div id="enemy-types">
+                    <h2>Enemy Types</h2>
+                    <div>
+                        <h3>Problem</h3>
+                        <p>I wanted enemies to introduce mechanics organically and encourage aggressive play.</p>
+                    </div>
+                    <div>
+                        <h3>Solution</h3>
+                        <p>I designed nine distinct enemy types, each serving a different challenge:</p>
+                        <ul>
+                            <li><strong>Melee and Elite Melee</strong>: Introduce the basics of parrying, making melee
+                                encounters the foundation for constant movement.</li>
+                            <li><strong>Ranged Enemies (Gun and Uzi)</strong>: Train players in prioritizing targets,
+                                requiring precise parries and establishing the concept of “priority targets.”</li>
+                            <li><strong>Grenadiers (Normal and Elite)</strong>: Act as chaos agents, allowing players to
+                                deflect grenades when timed precisely, adding layers to positioning and timing
+                                challenges.
+                            </li>
+                            <li><strong>Bazooka Enemies</strong>: These final, high-stakes enemies use target-seeking
+                                rockets, providing a significant end-game challenge.</li>
+                        </ul>
+                    </div>
+                </div>
             </section>
 
-            <!-- Feature 3: Game Feel Improvements -->
+
             <section class="feature">
-                <h3>Feature 3: Game Feel Enhancements</h3>
-                <p><strong>Problem:</strong> Enhancing player immersion and feedback without distracting from the core combat experience.</p>
-                <p><strong>Solution:</strong> Implemented visual effects (VFX), adaptive post-processing, and refined sound cues that respond to player actions. This combination amplified the sense of impact and satisfaction, ensuring that every successful parry and strike resonated with the player.</p>
+                <div id="enemy-management">
+                    <h2>Enemy Management Systems</h2>
+                    <div>
+                        <h3>Problem</h3>
+                        <p>With increasing enemy types, it was crucial to manage spawns in a way that felt fair,
+                            predictable, and challenging without overwhelming players.</p>
+                    </div>
+                    <div>
+                        <h3>Solution</h3>
+                        <p>I used an enemy manager to handle spawns, adjusting counts and placements to balance
+                            gameplay.
+                            Drawing from <em>Game AI Pro</em>, I moved beyond uniform random spawning and implemented
+                            <strong>Dynamic Weighted Random Ratios</strong>, balancing unique runs with fairness.
+                        </p>
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="feature">
+                <div id="game-ai-architecture">
+                    <h2>Priority-Based HFSM Game AI Architecture</h2>
+                    <div>
+                        <h3>Problem</h3>
+                        <p>Initial prototypes made enemies predictable and easy to exploit. To manage the varied enemy
+                            AI
+                            behaviors effectively, I needed a flexible but logical system that supported diverse
+                            tactics.
+                        </p>
+                    </div>
+                    <div>
+                        <h3>Solution</h3>
+                        <p>I chose a custom Priority-Based HFSM architecture, giving the AI flexibility with logical,
+                            weighted priorities for actions. This solution included:</p>
+                        <ul>
+                            <li><strong>Architecture</strong>: By making HFSM priority-based, it moves closer to
+                                industry-standard solutions like Behavior Trees, balancing simplicity with adaptability.
+                            </li>
+                            <li><strong>Pathfinding</strong>: Implemented a vector-based navigation system which weighs
+                                vectors based on target or obstacle proximity, allowing agents to pathfind using A*
+                                while
+                                dynamically avoiding others by adjusting their priority based on proximity to the player
+                                character.</li>
+                            <li><strong>Variance</strong>: Added randomized behavior variance for minor action
+                                fluctuations,
+                                which prevents repetitive patterns and creates engaging encounters.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="feature">
+                <div id="game-feel">
+                    <h2>Game Feel</h2>
+                    <div>
+                        <h3>Problem</h3>
+                        <p>Creating a polished mechanic is built with meaningful sound, visual feedback, and mechanics
+                            that
+                            engage players, yet without certain tactile hardware limitations, some polish elements
+                            weren't
+                            achievable.</p>
+                    </div>
+                    <div>
+                        <h3>Solution</h3>
+                        <p>Deadlines did not allow for game controller testing, so tactile feedback like rumble wasn't
+                            possible. However, I was successful in implementing:</p>
+                        <ul>
+                            <li><strong>VFX</strong>: Using SOLID principles, I created management scripts for my 40+
+                                handcrafted VFX, which allowed for simple VFX triggers without changing existing
+                                character
+                                logic. I expanded with UI indicators for attack time and type, off-screen indicators,
+                                and HP
+                                icons. This brought a sweet spot between my original idea for diegetic health
+                                representation
+                                through armor breaks and clear visual communication during chaotic multi-fights.</li>
+                            <li><strong>SFX</strong>: I recorded and/or mixed various sound effects and composed music
+                                loops
+                                in FL Studio 12. FMOD is planned for future projects for greater adaptive sound control.
+                            </li>
+                            <li><strong>Cinematic Effects</strong>: Effects like time dilation and controlled screen
+                                shakes
+                                intrinsically reward the player and reinforce impactful moments.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="feature">
+                <div id="performance">
+                    <h2>Performance</h2>
+                    <div>
+                        <h3>Problem</h3>
+                        <p>As development progressed, the game faced significant performance issues, particularly with
+                            graphical rendering and memory usage.</p>
+                    </div>
+                    <div>
+                        <h3>Solution</h3>
+                        <ul>
+                            <li><strong>Visual Optimization</strong>: I optimized materials, for example - bullets move
+                                so
+                                fast that an unlit shader looked identical to a lit one on them, but saved performance
+                                time.
+                                In order to eliminate the complexity of an opaque and transparent render queue, I
+                                introduced
+                                custom dithering shaders to introduce door-to-door transparency.</li>
+                            <li><strong>Memory Management</strong>: I reduced garbage collection time from 5ms to
+                                0.02ms,
+                                replacing GetComponent calls with serialized fields or singletons to minimize CPU
+                                overhead.
+                            </li>
+                            <li><strong>Asynchronous Scene Loading</strong>: My loading screen is a reusable scene for
+                                any
+                                scene-to-scene transition, making scene transitions seamless and optimized.</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+
+            <section class="feature">
+                <div id="visual-identity">
+                    <h2>Visual Identity</h2>
+                    <div>
+                        <h3>Problem</h3>
+                        <p>To create a cohesive art style, I avoided asset packs or generative AI, designing 3D and 2D
+                            assets from scratch. Only a few floor and wall textures were sampled from AmbientCG. While a
+                            good start, I needed something more distinct than just a low-poly 3D game.</p>
+                    </div>
+                    <div>
+                        <h3>Solution</h3>
+                        <ul>
+                            <li><strong>Custom Visual Assets</strong>: I aimed for a stylized, handcrafted aesthetic
+                                that
+                                reflects the game’s tone and themes. I ensured the UI is always animated and includes
+                                smooth
+                                transitions for a polished finish.</li>
+                            <li><strong>UI Optimization</strong>: Since I wanted to stylize every component, I used a UI
+                                Camera instead of the default Overlay, allowing for post-processing effects and ensuring
+                                visual cohesion across all game elements.</li>
+                        </ul>
+                    </div>
+                </div>
             </section>
         </section>
     </main>
 </body>
+
 </html>
